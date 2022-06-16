@@ -30,7 +30,12 @@ Online photo Gallery | MethEd Online School (EN) <br>
 - выполнен первичный коммит (Initial Commit);
 - настроена интеграция с GitHub Pages;
 </pre>
-<br>
+
+
+**=GITHUB PAGES** <br>
+Проект ["Онлайн галерея фотографий"](https://drvicx.github.io/methed-js-frontend-photogall/) опубликованый на GitHub Pages
+<br><br>
+
 
 **=APP PREVIEW**
 
