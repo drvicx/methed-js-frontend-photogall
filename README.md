@@ -23,6 +23,14 @@ Online photo Gallery | MethEd Online School (EN) <br>
 **=CHANGE LOG** <br>
 *new changes at the beginning (EN) / новые изменения в начале (RU) <br>
 
+02: 20210617_1740:
+<pre>
+- реализован основной JavaScript модуль "index.js" который содержит функцию асинхронно загружающую данные о фотографиях (photos) и функцию renderGallery() для рендеринга/сборки DOM-структуры галлереи карточек;
+- реализован модуль "getData.js" загружающий данные из локалного статического "файла data.json" и возвращающую Promise-объект который содержит данные полученные из файла;
+- реализован модуль "createCardPhoto.js" который формирует HTML-DOM структуру элемента списка (li) для вывода в родительский элемент списка (ul) путем связывания значений html-аттрибутов с полями JSON-данных;
+- реализован модуль "renderGallery.js" который выводит элементы списка (li) как дочерние элементы списка (ul) css-класса ".grid";
+</pre>
+
 01: 20210616_0900:
 <pre>
 - сформирован каркас проекта;
@@ -30,7 +38,7 @@ Online photo Gallery | MethEd Online School (EN) <br>
 - выполнен первичный коммит (Initial Commit);
 - настроена интеграция с GitHub Pages;
 </pre>
-
+<br>
 
 **=GITHUB PAGES** <br>
 Проект ["Онлайн галерея фотографий"](https://drvicx.github.io/methed-js-frontend-photogall/) опубликованый на GitHub Pages
@@ -39,6 +47,9 @@ Online photo Gallery | MethEd Online School (EN) <br>
 
 **=APP PREVIEW**
 
-- v20220616_0900 (01);<br>
-![preview](_preview/app-preview_20220616_0900.png?raw=true)
+- v20220617_1740 (02) -- Assembling photo cards from local data.json;<br>
+![preview](_preview/app-preview_20220617_1740.png?raw=true)
+<br><br>
 
+- v20220616_0900 (01) -- Initial static template;<br>
+![preview](_preview/app-preview_20220616_0900.png?raw=true)
