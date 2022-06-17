@@ -5,7 +5,7 @@ Online photo Gallery | MethEd Online School (EN) <br>
 
 
 **=PROJECT CONTENT** <br>
-- основные примемы Javascript;
+- основные приемы Javascript разработки;
 - работа с HTML DOM с помощью JavaScript: манипулирование элементами, CSS-классами и стилями;
 - работа с внешним JSON API, с помощью fetch;
 - авторизация oAuth с использованием JWT-токена;
