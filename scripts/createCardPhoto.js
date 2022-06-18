@@ -25,6 +25,7 @@
 *           </li>
 *       </ul>
 */
+import { createElem } from './createElem.js';
 
 //export const createCardPhoto = photo => {
 export const createCardPhoto = (data) => {
@@ -34,43 +35,43 @@ export const createCardPhoto = (data) => {
     //console.log('--single_object from createCardPhoto() func: ', data);
 
     //=Create HTML <li> element
-    const card = document.createElement('li');
-    card.className = 'card';
-
-    //--DEBUG: print "id" field from data.js as <li> text-value
-    //card.textContent = data.id;
+    //--old:
+    //const card = document.createElement('li');
+    //card.className = 'card';
+    //--new:
+    const card = createElem('li', {
+        className: 'card'
+    });
 
 
     //=Create 1st <a> element (class "grid-item")
-    const cardItem = document.createElement('a');
-    cardItem.id = data.id;
-    cardItem.className = 'grid-item';
-    //cardItem.href = 'page.html?photo=BZnPqlIl5pk';    //--static photo id
-    cardItem.href = `page.html?photo=${data.id}`;       //--dynamic photo id
-
-    //--DEBUG
-    //console.log(cardItem.href);         //= http://127.0.0.1:5500/page.html?photo=Y2ravKRtQZ0
+    //--old:
+    //const cardItem = document.createElement('a');
+    //cardItem.id = data.id;
+    //--new:
+    const cardItem = createElem('a', {
+        id: data.id,
+        className: 'grid-item',
+        href: `page.html?photo=${data.id}`,
+    });
 
 
     //=Create 1st <img> element
-    //const photo = new Image();
-    //photo.width = data.img.width;
-    //
     const img = new Image();
-    img.width = '200';                    //--static hardcoded width for all photos/images
+    img.width = '200';
     img.src = data.urls.small;
     img.alt = data.alt_description;
 
-    //--DEBUG
-    //console.log(img.width);             //= 200
-    //console.log(img.src);               //= https://images.unsplash.com/photo-1648737153811-69a6d8c528bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMDE0MzF8MXwxfGFsbHwxfHx8fHx8Mnx8MTY1NDUyMzM5NQ&ixlib=rb-1.2.1&q=80&w=400
-    //console.log(img.alt);               //= tezos and bitcoin  -- or null becouse field is NULL value in data.json
-
 
     //=Create 2nd <a> element (class "card__author")
-    const author = document.createElement('a');
-    author.className = 'card__author';
-    author.href = data.user.links.html;
+    //--old:
+    //const author = document.createElement('a');
+    //author.className = 'card__author';
+    //--new:
+    const author = createElem('a', {
+        className: 'card__author',
+        href: data.user.links.html,
+    });
 
 
     //=Create 2nd <img> element (class "author__photo")
@@ -82,30 +83,28 @@ export const createCardPhoto = (data) => {
     authorImg.alt = data.user.bio;
     authorImg.title = data.user.username;
 
-    //--DEBUG
-    //console.log(authorImg.src);         //= https://images.unsplash.com/profile-1633364056312-0319b9fc4586image?ixlib=rb-1.2.1&crop=faces&fit=crop&w=64&h=64
-    //console.log(authorImg.alt);         //= Nature, landscape & urban photographer.
-    //console.log(authorImg.title);       //= andredantan19
-
 
     //=Create <button> element
-    const likeBtn = document.createElement('button');
-    likeBtn.className = 'card__photo-like';
-    likeBtn.textContent = data.likes;
-
-    //--DEBUG
-    //console.log(likeBtn.textContent);   //= 149
+    //--old:
+    //const likeBtn = document.createElement('button');
+    //--new:
+    const likeBtn = createElem('button', {
+        className: 'card__photo-like',
+        textContent: data.likes,
+    });
 
 
     //=Create 3th <a> element (class "card__download")
-    const downloadLink = document.createElement('a');
-    downloadLink.className = 'card__download';
-    downloadLink.href = data.links.download;
-    downloadLink.download = true;               //-- browser behaviour modificator: if true - download file by URL, if false - open file;
-    downloadLink.target = '_blank';             //-- open link in new browser tab;
-
-    //--DEBUG
-    //console.log(downloadLink.href);           //= https://unsplash.com/photos/Y2ravKRtQZ0/download?ixid=MnwzMDE0MzF8MXwxfGFsbHwxfHx8fHx8Mnx8MTY1NDUyMzM5NQ
+    //--old:
+    //const downloadLink = document.createElement('a');
+    //downloadLink.className = 'card__download';
+    //--new:
+    const downloadLink = createElem('a', {
+        className: 'card__download',
+        href: data.links.download,
+        download: true,
+        target: '_blank',
+    });
 
 
     //--Assembling an photo-card <li> element from child-elements + Assembling child elements if necessary
@@ -113,6 +112,21 @@ export const createCardPhoto = (data) => {
     cardItem.append(img, author, likeBtn, downloadLink);
     //..place all sub-elements inside <li> element
     card.append(cardItem);
+
+
+    //--DEBUG to index.html: print "id" field from data.js as <li> text-value
+    //card.textContent = data.id;
+
+    //--DEBUG to console
+    //console.log(cardItem.href);         //= http://127.0.0.1:5500/page.html?photo=Y2ravKRtQZ0
+    //console.log(img.width);             //= 200
+    //console.log(img.src);               //= https://images.unsplash.com/photo-1648737153811-69a6d8c528bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMDE0MzF8MXwxfGFsbHwxfHx8fHx8Mnx8MTY1NDUyMzM5NQ&ixlib=rb-1.2.1&q=80&w=400
+    //console.log(img.alt);               //= tezos and bitcoin  -- or null becouse field is NULL value in data.json
+    //console.log(authorImg.src);         //= https://images.unsplash.com/profile-1633364056312-0319b9fc4586image?ixlib=rb-1.2.1&crop=faces&fit=crop&w=64&h=64
+    //console.log(authorImg.alt);         //= Nature, landscape & urban photographer.
+    //console.log(authorImg.title);       //= andredantan19
+    //console.log(likeBtn.textContent);   //= 149
+    //console.log(downloadLink.href);     //= https://unsplash.com/photos/Y2ravKRtQZ0/download?ixid=MnwzMDE0MzF8MXwxfGFsbHwxfHx8fHx8Mnx8MTY1NDUyMzM5NQ
 
 
     //=return
