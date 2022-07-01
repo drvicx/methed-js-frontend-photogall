@@ -1,10 +1,4 @@
 /**
- * =CREATES SINGLE PHOTO-CARD LIST ELEMENT/ITEM (<li>) 
- * 
- * @param {*} data - Array of JavaScript Objects from data.json
- * 
- */
-/**
 *   -- index.html template <ul> block
 *
 *       <ul class="grid" style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 30px;">
@@ -27,28 +21,59 @@
 */
 import { createElem } from './createElem.js';
 
-//export const createCardPhoto = photo => {
-export const createCardPhoto = (data) => {
-    
-    //--DEBUG
-    //console.log("  called createCardPhoto() func");
-    //console.log('--single_object from createCardPhoto() func: ', data);
+
+//-NEW1(bug) - SYNChronous version - Returns an Image Object
+/*
+const loadImg = (url, description) => {
+    const img = new Image();
+    img.width = 200;
+    img.src = url;
+    img.alt = description;
+
+    return img;
+}
+*/
+
+//-NEW1(fix) - ASYNChronous version - Returns a Promise Object
+const loadImg = (url, description) => {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.width = 200;
+        img.src = url;
+        img.alt = description;
+        //--Create onLoad event-Listener of <img> element
+        //  when Promise Object will be executed successfully - will be called resolve function that returns an Image Object (img)
+        img.addEventListener('load', () => {
+            resolve(img)
+        });
+        //--if load image - failed - Call Promise reject function with error description
+        img.addEventListener('error', (err) => {
+            //reject(err)
+            reject(new Error(err))
+        });
+    });
+}
+
+
+/**
+ * =CREATES SINGLE PHOTO-CARD LIST ELEMENT/ITEM (<li>) 
+ * 
+ * @param {*} data - Array of JavaScript Objects from data.json
+ * 
+ */
+//-BEFORE:
+//export const createCardPhoto = (data) => {
+//
+//-AFTER:
+export const createCardPhoto = async (data) => {
 
     //=Create HTML <li> element
-    //--old:
-    //const card = document.createElement('li');
-    //card.className = 'card';
-    //--new:
     const card = createElem('li', {
         className: 'card'
     });
 
 
     //=Create 1st <a> element (class "grid-item")
-    //--old:
-    //const cardItem = document.createElement('a');
-    //cardItem.id = data.id;
-    //--new:
     const cardItem = createElem('a', {
         id: data.id,
         className: 'grid-item',
@@ -57,17 +82,41 @@ export const createCardPhoto = (data) => {
 
 
     //=Create 1st <img> element
+    //-BEFORE:
+    /*
     const img = new Image();
     img.width = '200';
     img.src = data.urls.small;
     img.alt = data.alt_description;
+    */
+
+    //-AFTER:
+    //-NEW1(bug) - Call of loadImg() Synchronous function - Returns an Image Object
+    //const img = loadImg(data.urls.small, data.alt_description);
+
+    //--DEBUG: 
+    //..check image (<img>) element hight:
+    //console.log(img.height)
+    //..trying to set cardItem height prop:
+    //cardItem.css.height = img.height;
+    //(!)CONSOLE-ERROR:
+    //      Uncaught (in promise) TypeError: 
+    //          Cannot set properties of undefined (setting 'height')
+
+
+    //-NEW1(fix1) - SYNChronous Call of Asynchronous function loadImg() - Returns a Promise Object
+    //const img = loadImg(data.urls.small, data.alt_description);
+    //--DEBUG:
+    //console.log('img', img);        //--30 Promise Objects with empty img data are available in console
+
+    //-NEW1(fix2) - ASYNChronous Call of Asynchronous function loadImg() - Returns a Promise Object
+    const img = await loadImg(data.urls.small, data.alt_description);
+    //--DEBUG:
+    //console.log('img', img);        //--30 Promise Objects with fulfilled img data
+
 
 
     //=Create 2nd <a> element (class "card__author")
-    //--old:
-    //const author = document.createElement('a');
-    //author.className = 'card__author';
-    //--new:
     const author = createElem('a', {
         className: 'card__author',
         href: data.user.links.html,
@@ -85,9 +134,6 @@ export const createCardPhoto = (data) => {
 
 
     //=Create <button> element
-    //--old:
-    //const likeBtn = document.createElement('button');
-    //--new:
     const likeBtn = createElem('button', {
         className: 'card__photo-like',
         textContent: data.likes,
@@ -95,10 +141,6 @@ export const createCardPhoto = (data) => {
 
 
     //=Create 3th <a> element (class "card__download")
-    //--old:
-    //const downloadLink = document.createElement('a');
-    //downloadLink.className = 'card__download';
-    //--new:
     const downloadLink = createElem('a', {
         className: 'card__download',
         href: data.links.download,
@@ -107,26 +149,11 @@ export const createCardPhoto = (data) => {
     });
 
 
-    //--Assembling an photo-card <li> element from child-elements + Assembling child elements if necessary
+    //=Assembling an photo-card <li> element from child-elements + Assembling child elements if necessary
     author.append(authorImg);
     cardItem.append(img, author, likeBtn, downloadLink);
     //..place all sub-elements inside <li> element
     card.append(cardItem);
-
-
-    //--DEBUG to index.html: print "id" field from data.js as <li> text-value
-    //card.textContent = data.id;
-
-    //--DEBUG to console
-    //console.log(cardItem.href);         //= http://127.0.0.1:5500/page.html?photo=Y2ravKRtQZ0
-    //console.log(img.width);             //= 200
-    //console.log(img.src);               //= https://images.unsplash.com/photo-1648737153811-69a6d8c528bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMDE0MzF8MXwxfGFsbHwxfHx8fHx8Mnx8MTY1NDUyMzM5NQ&ixlib=rb-1.2.1&q=80&w=400
-    //console.log(img.alt);               //= tezos and bitcoin  -- or null becouse field is NULL value in data.json
-    //console.log(authorImg.src);         //= https://images.unsplash.com/profile-1633364056312-0319b9fc4586image?ixlib=rb-1.2.1&crop=faces&fit=crop&w=64&h=64
-    //console.log(authorImg.alt);         //= Nature, landscape & urban photographer.
-    //console.log(authorImg.title);       //= andredantan19
-    //console.log(likeBtn.textContent);   //= 149
-    //console.log(downloadLink.href);     //= https://unsplash.com/photos/Y2ravKRtQZ0/download?ixid=MnwzMDE0MzF8MXwxfGFsbHwxfHx8fHx8Mnx8MTY1NDUyMzM5NQ
 
 
     //=return
