@@ -1,53 +1,62 @@
+import { createCardPhoto } from './createCardPhoto.js';
+import { createElem } from './createElem.js';
+import { scrollLoad } from './scrollLoad.js';
+
 /**
  *=ARRAY OF JAVA SCRIPT OBJECTS POCESSING FUNCTION
  *
- * @photos - Array of JavaScript Objects from getData.js module;
+ * @wrapperElement - A pointer/selector to HTML div-element with "gallery__wrapper" class;
+ * @photos - An array of JavaScript Objects from getData.js module;
  * 
  */
-import { createCardPhoto } from './createCardPhoto.js';
+export const renderGallery = (wrapperElement, photos) => {
 
-export const renderGallery = (photos) => {
-
-    //--DEBUG
+    //--DEBUG:
     console.log('  called renderGallery() func');
-    //console.log(photos);
 
-    //=Select .grid class HTML Elemenet and print to Console
-    const gallery = document.querySelector('.grid');
+    //=Create HTML <ul> element with .grid class
+    const gallery = createElem('ul', {
+        className: 'grid'
+    });
     
-    //--DEBUG
-    //console.log('gallery: ', gallery);
-    //--DEBUG: print single photo object separatelly
-    /*
-    photos.map((photo) => {
-        console.log(photo);
+    //-NEW
+    //=Create empty end div-element (anchor/endElem/terminator)
+    const terminator = createElem('div');
+    
+    wrapperElement.append(gallery);
+
+
+    //=Initialize Masonry Object & set configuration
+    const masonryGrid = new Masonry(gallery, {
+        gutter: 10,             //- spacing between elements (px);
+        itemSelector: '.card',  //- (selector) class of single card element (<li class="card">);
+        columnWidth: 200,       //- column-width of Masonry grid (px);
+        isFitWidth: true,       //- elements position - centered;
+
     })
-    */
+    //..from this point, photo cards orientation changed to centered on index.html page
+    //  but masonry layout effects is not applied to photo-cards <li> elements
 
-    //=Get data from createCardPhoto
-    //--DEBUG: before createCardPhoto() funct implementation:
-    //  print empty (undefined) array of N-photo JSON elements
-    //  cards array is empty becouse createCardPhoto fuction has no logic (before logic implementation)
-    //  map(createCardPhoto) method take Data from createCardPhoto() function and write Data to "cards" array
-    
-    //--DEBUG: after createCardPhoto() funct implementation:
-    //  getting array of 30 <li> DOM-elements from createCardPhoto() funct and map them to "cards" array
+
+    //=Get data from createCardPhoto    
+    // - getting array of 30 <li> DOM-elements from createCardPhoto() funct and map them to "cards" array
     const cards = photos.map(createCardPhoto);
-    
-
-    //--DEBUG
-    //console.log('cards: ', cards);
-
-    //photos.map((createCardPhoto) => {
-    //    console.log(photo);
-    //})
-
 
     //=Add child <li> elements to parent <ul> selected with .grid class
-    //--DEBUG:
-    //gallery.append(cards);        //= HTML output: long string contains 30 [object HTMLLIElement] records;
+    // Waits when all Promises will be fullfilled and render Masonry grid with photo-cards
+    Promise.all(cards).then(cards => {
+        //--DEBUG
+        //console.log(cards)
 
-    //--fix with spread operator
-    gallery.append(...cards);       //= HTML output: long string contains 30 [object HTMLLIElement] records;
+        //=Add child <li> elements to parent <ul> selected with .grid class
+        gallery.append(...cards);
+        //=Apply Masonry-grid to Photo Cards - place/append Array of <li> card elements into Masonry grid Object
+        masonryGrid.appended(cards);
+        //-NEW
+        //=Add empty div-element to the end of wrapper element after <ul> element (but before next portion of data)
+        wrapperElement.append(terminator);
+        //=
+        scrollLoad(gallery, masonryGrid, terminator);
+    })
 
 }
