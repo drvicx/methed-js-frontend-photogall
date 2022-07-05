@@ -100,7 +100,7 @@ Online photo Gallery | MethEd Online School (EN) <br>
 
 **=APP PREVIEW**
 
-- v20210705_1605 (05) -- Implemented Masonry grid (left part) and endless scroll (right part) -- from local data.json;<br>
+- v20210705_1605 (05) -- Implemented Masonry grid (left part) and endless scroll (right part) -- from data.json;<br>
 ![preview](_preview/app-preview_20210705_1605.png?raw=true)
 <br><br>
 
