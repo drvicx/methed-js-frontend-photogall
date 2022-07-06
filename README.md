@@ -23,7 +23,7 @@ Online photo Gallery | MethEd Online School (EN) <br>
 **=CHANGE LOG** <br>
 *new changes at the beginning (EN) / новые изменения в начале (RU) <br>
 
-06: 20210706_1900:
+06: 20220706_1900:
 <pre>
 - реализация формирования страницы "page.html" с информацией об одиночной фотокарточке;
 - внесены изменения в модуль "index.js": теперь модуль обрабатывает два враппера для двух старниц "index.html" и "page.html"
