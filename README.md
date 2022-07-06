@@ -23,6 +23,25 @@ Online photo Gallery | MethEd Online School (EN) <br>
 **=CHANGE LOG** <br>
 *new changes at the beginning (EN) / новые изменения в начале (RU) <br>
 
+06: 20210706_1900:
+<pre>
+- реализация формирования страницы "page.html" с информацией об одиночной фотокарточке;
+- внесены изменения в модуль "index.js": теперь модуль обрабатывает два враппера для двух старниц "index.html" и "page.html"
+  и формирует данные в зависимости от того из какой странцы он был вызван;
+- внесены изменения в модуль "index.js": при вызове функции "getData()" теперь передается ссылка на ресурс (url),
+  которым в текущей реализации являются локальные статические файлы "data.json" и "photo.json";
+- внесены изменения в модуль "getData.js": теперь функция "getData()" обрабатывает параметр "url"
+  и возвращает результат в виде списка JavaScript объектов или одиночного JavaScript объекта в зависимости от того какаой файл был передан в "url";
+- внесены изменения в шаблон страницы "page.html": удлено все что внутри div-блока с классом "photo__wrapper",
+  теперь за наполнение этого блока отвечает JavaScript код;
+- реализован модуль "renderPhoto.js" который предназначен для формирования DOM-элементов выводящихся в div-блок с классом "photo__wrapper" на странице "page.html";
+
+- в РЕЗУЛЬТАТЕ при клике на фото-карточку на странице "index.html" формируется страница "page.html"
+  содержащая информацию полученную из файла "photo.json".
+  ВАЖНО: в текущей реализации при кликле на любую карточку формируется одна и таже страница.
+  Привязка к конкретной фотографии в галерее, будет выполнена в дальнейшем после подключения к внешнему REST API сервисву фотографий;
+</pre>
+
 05: 20210705_1605:
 <pre>
 - внесены изменения в модуль "renderGallery.js": создан новый пустой div-элемент (terminator) ввыводящийяся после (ul)-блока с изображениями;
@@ -39,7 +58,7 @@ Online photo Gallery | MethEd Online School (EN) <br>
 04: 20210628_1520:
 <pre>
 - к приложению подключена JavaScript-библиотека Masonry (https://masonry.desandro.com) которая позволяет формировать плиточную сетку с изображениями;
-- внесены изменения в index.html: удален блок (ul) - теперь за формирование этого блока будет отвечать JavaScript код на основен библиотеки Masonry,
+- внесены изменения в "index.html": удален блок (ul) - теперь за формирование этого блока будет отвечать JavaScript код на основен библиотеки Masonry,
   подключена библиотка Masonry и выполнена начальная иницилизация;
 - внесены изменения в модуль "index.js": теперь метод init() обрабатывает "wrapperSelector" в который передается имя css-класса html-элемента в котрый будет выводится ul-элемент 
   формирующий галлерею изображений (.gallery__wrapper);
@@ -100,8 +119,12 @@ Online photo Gallery | MethEd Online School (EN) <br>
 
 **=APP PREVIEW**
 
-- v20210705_1605 (05) -- Implemented Masonry grid (left part) and endless scroll (right part) -- from data.json;<br>
-![preview](_preview/app-preview_20210705_1605.png?raw=true)
+- v20220706_1900 (05) -- Implemented Single Image page "page.html" -- from photo.json;<br>
+![preview](_preview/app-preview_20220706_1900.png?raw=true)
+<br><br>
+
+- v20220705_1605 (05) -- Implemented Masonry grid (left part) and endless scroll (right part) -- from data.json;<br>
+![preview](_preview/app-preview_20220705_1605.png?raw=true)
 <br><br>
 
 - v20220618_1950 (03) -- Removing static/hardcoded content from index.html;<br>
