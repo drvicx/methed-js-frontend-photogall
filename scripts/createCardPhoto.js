@@ -1,40 +1,10 @@
 /**
-*   -- index.html template <ul> block
-*
-*       <ul class="grid" style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 30px;">
-*
-*           <li class="card" style="min-height: 300px;">
-*               <a id="BZnPqlIl5pk" class="grid-item" href="page.html?photo=BZnPqlIl5pk">
-*
-                    <img width="200" src="https://images.unsplash.com/photo-1654507666453-ec3e281b146c?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwzMDE0MzF8MHwxfGFsbHw4fHx8fHx8Mnx8MTY1NDUyMzcxMA&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=400" alt="null">
-
-                    <a class="card__author" href="#">
-                        <img class="author__photo" src="https://images.unsplash.com/profile-1639410901867-5932bcc818ccimage?ixlib=rb-1.2.1&amp;crop=faces&amp;fit=crop&amp;w=32&amp;h=32" width="32" height="32" role="presentation" alt="I mainly do editorial shoots, but always with human elements. I believe that adding a human element to an art concept is the most organic way to represent our touch in the world." title="Chandri Anggara">
-                    </a>
-
-                    <button class="card__photo-like">2</button>
-
-                    <a class="card__download" href="https://unsplash.com/photos/BZnPqlIl5pk/download?ixid=MnwzMDE0MzF8MHwxfGFsbHw4fHx8fHx8Mnx8MTY1NDUyMzcxMA" download="" target="_blank"></a>
-                </a>
-*           </li>
-*       </ul>
+ *=CREATES IMAGE GALLERY DOM ELEMENTS/CARDS for "index.html"
 */
 import { createElem } from './createElem.js';
 
 
-//-NEW1(bug) - SYNChronous version - Returns an Image Object
-/*
-const loadImg = (url, description) => {
-    const img = new Image();
-    img.width = 200;
-    img.src = url;
-    img.alt = description;
-
-    return img;
-}
-*/
-
-//-NEW1(fix) - ASYNChronous version - Returns a Promise Object
+//=ASYNChronous version - Returns a Promise Object with Image data
 const loadImg = (url, description) => {
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -61,10 +31,6 @@ const loadImg = (url, description) => {
  * @param {*} data - Array of JavaScript Objects from data.json
  * 
  */
-//-BEFORE:
-//export const createCardPhoto = (data) => {
-//
-//-AFTER:
 export const createCardPhoto = async (data) => {
 
     //=Create HTML <li> element
@@ -81,39 +47,9 @@ export const createCardPhoto = async (data) => {
     });
 
 
-    //=Create 1st <img> element
-    //-BEFORE:
-    /*
-    const img = new Image();
-    img.width = '200';
-    img.src = data.urls.small;
-    img.alt = data.alt_description;
-    */
-
-    //-AFTER:
-    //-NEW1(bug) - Call of loadImg() Synchronous function - Returns an Image Object
-    //const img = loadImg(data.urls.small, data.alt_description);
-
-    //--DEBUG: 
-    //..check image (<img>) element hight:
-    //console.log(img.height)
-    //..trying to set cardItem height prop:
-    //cardItem.css.height = img.height;
-    //(!)CONSOLE-ERROR:
-    //      Uncaught (in promise) TypeError: 
-    //          Cannot set properties of undefined (setting 'height')
-
-
-    //-NEW1(fix1) - SYNChronous Call of Asynchronous function loadImg() - Returns a Promise Object
-    //const img = loadImg(data.urls.small, data.alt_description);
-    //--DEBUG:
-    //console.log('img', img);        //--30 Promise Objects with empty img data are available in console
-
-    //-NEW1(fix2) - ASYNChronous Call of Asynchronous function loadImg() - Returns a Promise Object
+    //=ASYNChronous Call of Asynchronous function loadImg() - Returns a Promise Object
+    // Promise Objects with fulfilled img data
     const img = await loadImg(data.urls.small, data.alt_description);
-    //--DEBUG:
-    //console.log('img', img);        //--30 Promise Objects with fulfilled img data
-
 
 
     //=Create 2nd <a> element (class "card__author")
@@ -123,7 +59,10 @@ export const createCardPhoto = async (data) => {
     });
 
 
+    //!CHANGES
     //=Create 2nd <img> element (class "author__photo")
+    //-BEFORE
+    /*
     const authorImg = new Image();
     authorImg.className = 'author__photo';
     authorImg.src = data.user.profile_image.medium;
@@ -131,6 +70,16 @@ export const createCardPhoto = async (data) => {
     authorImg.height = '32';
     authorImg.alt = data.user.bio;
     authorImg.title = data.user.username;
+    */
+    //-AFTER
+    const authorImg = createElem('img', {
+        className: 'author__photo',
+        src: data.user.profile_image.medium,
+        width: '32',
+        height: '32',
+        alt: data.user.bio,
+        title: data.user.username,
+    });
 
 
     //=Create <button> element
@@ -160,3 +109,30 @@ export const createCardPhoto = async (data) => {
     return card;
 
 };
+
+/**
+* -- index.html <ul> block
+*
+*       <div class="container gallery__wrapper">
+*
+*           <ul class="grid" style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 30px;">
+*
+*               <li class="card" style="min-height: 300px;">
+*                   <a id="BZnPqlIl5pk" class="grid-item" href="page.html?photo=BZnPqlIl5pk">
+*
+*                       <img width="200" src="https://images.unsplash.com/photo-1654507666453-ec3e281b146c?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=MnwzMDE0MzF8MHwxfGFsbHw4fHx8fHx8Mnx8MTY1NDUyMzcxMA&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=400" alt="null">
+*
+*                       <a class="card__author" href="#">
+*                           <img class="author__photo" src="https://images.unsplash.com/profile-1639410901867-5932bcc818ccimage?ixlib=rb-1.2.1&amp;crop=faces&amp;fit=crop&amp;w=32&amp;h=32" width="32" height="32" role="presentation" alt="I mainly do editorial shoots, but always with human elements. I believe that adding a human element to an art concept is the most organic way to represent our touch in the world." title="Chandri Anggara">
+*                       </a>
+*
+*                       <button class="card__photo-like">2</button>
+*
+*                       <a class="card__download" href="https://unsplash.com/photos/BZnPqlIl5pk/download?ixid=MnwzMDE0MzF8MHwxfGFsbHw4fHx8fHx8Mnx8MTY1NDUyMzcxMA" download="" target="_blank"></a>
+*                   </a>
+*               </li>
+*           </ul>
+*
+*   </div><!--container gallery__wrapper-->
+*
+*/

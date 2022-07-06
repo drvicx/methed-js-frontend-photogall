@@ -6,7 +6,7 @@ import { scrollLoad } from './scrollLoad.js';
  *=ARRAY OF JAVA SCRIPT OBJECTS POCESSING FUNCTION
  *
  * @wrapperElement - A pointer/selector to HTML div-element with "gallery__wrapper" class;
- * @photos - An array of JavaScript Objects from getData.js module;
+ * @photos - An array of JavaScript Objects from "getData.js" module;
  * 
  */
 export const renderGallery = (wrapperElement, photos) => {
