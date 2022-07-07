@@ -59,19 +59,7 @@ export const createCardPhoto = async (data) => {
     });
 
 
-    //!CHANGES
     //=Create 2nd <img> element (class "author__photo")
-    //-BEFORE
-    /*
-    const authorImg = new Image();
-    authorImg.className = 'author__photo';
-    authorImg.src = data.user.profile_image.medium;
-    authorImg.width = '32';
-    authorImg.height = '32';
-    authorImg.alt = data.user.bio;
-    authorImg.title = data.user.username;
-    */
-    //-AFTER
     const authorImg = createElem('img', {
         className: 'author__photo',
         src: data.user.profile_image.medium,

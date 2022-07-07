@@ -16,13 +16,3 @@ export const createElem = (tag, attrs) => {
     return elem;
 
 }
-
-//--DEBUG: test createElement() func
-/*
-createElem('div', {
-    className: 'block',
-    textContent: 'test content',
-    title: 'test title'
-
-});
-*/
