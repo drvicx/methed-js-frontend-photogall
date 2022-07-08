@@ -36,15 +36,19 @@ const init = async ({selectorGalleryWrapper, selectorPhotoWrapper}) => {
         const url = new URL(location.href);
         //-DEBUG: explore URL-object structure
         //console.log('url', url);
-        //console.log(url.searchParams.get('photo'));     //..get Image id from URL
-                                                          //  example: http://127.0.0.1:5500/page.html?photo=Y2ravKRtQZ0
 
-        //..Getting a single JavaScript Object with concrete Image data
-        const photo = await getData('photo.json');
-    
-        //..Call renderPhoto() from renderPhoto.js
-        renderPhoto(photoWrapperElement, photo);
-        
+        //..Get Image id from URL
+        //  example: http://127.0.0.1:5500/page.html?photo=Y2ravKRtQZ0
+        const imgId = url.searchParams.get('photo');
+
+        //..If imgId is present
+        if (imgId) {
+            //..Getting a single JavaScript Object with concrete Image data
+            const photo = await getData({imgId});
+
+            //..Call renderPhoto() from renderPhoto.js
+            renderPhoto(photoWrapperElement, photo);
+        }
     }
 
 }

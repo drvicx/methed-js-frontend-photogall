@@ -47,12 +47,19 @@ export const renderPhoto = (photoWrapperElement, photo) => {
         className: 'photo__control',
     });
 
-    //=Create <button> element -- download Button
-    const downloadButton = createElem('button', {
+    //=Create <button> element -- Like Button
+    const likeButton = createElem('button', {
         className: 'photo__like',
         id: photo.id,
         textContent: photo.likes,
     });
+
+    //=Checks is Like is already set by User
+    // if not set - the heart icon must be filled with white color
+    // if set     - the heart icon must be filled with red color
+    if (!likeButton.likedByUser) {
+        likeButton.classList.add('photo__like_o');
+    }
 
     //=Create <a> element -- link for download Button
     const downloadLink = createElem('a', {
@@ -70,7 +77,7 @@ export const renderPhoto = (photoWrapperElement, photo) => {
     //authorLink.append(authorTitle);
 
     //..build <div class="photo__control"> block
-    downloadWrapper.append(downloadButton, downloadLink);
+    downloadWrapper.append(likeButton, downloadLink);
     //downloadWrapper.append(downloadLink);
 
     //=Build top-level element <div class="container photo__wrapper">
