@@ -19,7 +19,7 @@ export const renderGallery = (wrapperElement, photos) => {
         className: 'grid'
     });
     
-    //-NEW
+
     //=Create empty end div-element (anchor/endElem/terminator)
     const terminator = createElem('div');
     
