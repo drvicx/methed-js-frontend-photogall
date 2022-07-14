@@ -5,6 +5,7 @@
 import { getData } from "./getData.js";
 import { renderGallery } from "./renderGallery.js";
 import { renderPhoto } from "./renderPhoto.js";
+import { authorization } from "./authorization.js";
 
 
 /**
@@ -12,13 +13,19 @@ import { renderPhoto } from "./renderPhoto.js";
  * @param {*} wrapperSelector - html element in which the gallery will be displayed/rendered  
  * 
 */
-const init = async ({selectorGalleryWrapper, selectorPhotoWrapper}) => {
+const init = async ({selectorGalleryWrapper, selectorPhotoWrapper, selectorAuthButton}) => {
 
     //=Select gallery HTML-wrapper element by className
     const galleryWrapperElement = document.querySelector(selectorGalleryWrapper);
 
     //=Select photo HTML-wrapper element by className
     const photoWrapperElement = document.querySelector(selectorPhotoWrapper);
+
+    //=Select Login Button with "Logon/Logoff" title & "header__login-button" class
+    const authButtonElement = document.querySelector(selectorAuthButton);
+
+    //=Call Auth function
+    authorization(authButtonElement);
 
     //=Cheks if galleryWrapperElement Object is created by CSS class name
     if (galleryWrapperElement) {
@@ -55,5 +62,6 @@ const init = async ({selectorGalleryWrapper, selectorPhotoWrapper}) => {
 
 init({
         selectorGalleryWrapper: '.gallery__wrapper',
-        selectorPhotoWrapper: '.photo__wrapper'
+        selectorPhotoWrapper: '.photo__wrapper',
+        selectorAuthButton: '.header__login-button',
 });
