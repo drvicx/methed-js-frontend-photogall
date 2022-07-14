@@ -32,7 +32,7 @@ Online photo Gallery | MethEd Online School (EN) <br>
 - внесены изменения модуль "index.js": добавлен селектор кнопки авторизации при клике на которую
   вызывается функция авторизации "authorization()" из модуля "authorization.js";
 - реализован модуль "authorization.js" в котором имплементируются шаги OAuth2 Авторизации и Аутенификации пользователя
-  согласно протоколу описанному в API документации Сервиса;
+  согласно протоколу описанному в API документации Сервиса:
   https://unsplash.com/documentation/user-authentication-workflow
   функции "login()", "checkLogin()", "getUserAccessToken()", "authorization()" модуля
   асинхронно выполняют необходимые шаги Авторизации в результате чего в локальное хранилище браузера (Local Storage)
