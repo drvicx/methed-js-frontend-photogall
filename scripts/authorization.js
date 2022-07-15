@@ -4,18 +4,19 @@ import {
     OAUTH_REDIRECT_URI,
     OAUTH_RESPONSE_TYPE,
     OAUTH_PERM_SCOPE,
-    OAUTH_REQUEST_ACCES_TOKEN_URL,
-    OAUTH_REQUEST_ACCES_TOKEN_SECRET
+    OAUTH_REQUEST_ACCESS_TOKEN_URL,
+    OAUTH_REQUEST_ACCESS_TOKEN_SECRET
 } from './const.js';
+import { getUserData } from './getUserData.js';
 
 
 //=OAuth2.Step3: Get User Acces Token from API Service
 const getUserAccessToken = (code) => {
     //..Construct POST request URL
-    const url = new URL(OAUTH_REQUEST_ACCES_TOKEN_URL);
+    const url = new URL(OAUTH_REQUEST_ACCESS_TOKEN_URL);
 
     url.searchParams.append('client_id', OAUTH_CLIENT_ID);
-    url.searchParams.append('client_secret', OAUTH_REQUEST_ACCES_TOKEN_SECRET);
+    url.searchParams.append('client_secret', OAUTH_REQUEST_ACCESS_TOKEN_SECRET);
     url.searchParams.append('redirect_uri', OAUTH_REDIRECT_URI);
     url.searchParams.append('code', code);
     url.searchParams.append('grant_type', 'authorization_code');
@@ -82,20 +83,60 @@ const login = () => {
 
     //..Follow to new URL (with search-parameters) in Browser
     location.href = url;
+
+    //..Console message
+    console.log("User logged in..");
+};
+
+
+//=User Logout function - exit from App
+const logout = (e) => {
+
+    //..Get Button element from event (e) Object
+    const buttonElement = e.target;
+
+    //..Simple user action check dialog
+    //  if "true" - remove Bearer token from Local Storage & reset Logon/Logoff button styles
+    if (confirm('Are you sure?')) {
+        localStorage.removeItem('Bearer');
+        buttonElement.textContent = '';
+        buttonElement.style.backgroundImage = '';
+
+        //Fix: Remove Logout onClick event from Button and Add Login onClick event
+        buttonElement.removeEventListener('click', logout);
+        buttonElement.addEventListener('click', login);
+
+        //..Console message
+        console.log("User logged out..");
+    }
 };
 
 
 //=Authorization function for "Logon/Logout" Button
 export const authorization = async (buttonElement) => {
 
-    //..If Authorized - do something, If not - Attach onClick event to Button elelement
+    //..If Authorized - do something, If not - Attach onClick event to Button element
     if (await checkLogin()) {
+        //--DEBUG
         console.log("User Athorized");
+
+        //..Get User Profile JSON Data
+        const userData = await getUserData();
+        //--DEBUG
+        //console.log('userData: ', userData);
+
+        //..Display Profile UserName and Avatar on Logon Button element
+        buttonElement.textContent = userData.username;
+        buttonElement.style.backgroundImage = `url(${userData.profile_image.small})`;
+
+        //..If User is Authorized - Attach onClick event to Button element that call logout() function
+        buttonElement.addEventListener('click', logout);
 
     } else {
         //..Print message to Console
         console.log("User NOT Athorized! Try to use Logon Button");
-        //..Attach onClick event to Button elelement that call login() function
+        
+        //..If User is NOT Authorized - Attach onClick event to Button element that call login() function
         buttonElement.addEventListener('click', login);
     }
 };
