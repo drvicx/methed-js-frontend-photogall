@@ -19,11 +19,32 @@ Online photo Gallery | MethEd Online School (EN) <br>
 - Vanilla JavaScript, JavaScript ES6+;
 <br><br>
 
+**=ИСТОЧНИКИ** <br>
+- [Unsplash REST API - User Authentication Workflow](https://unsplash.com/documentation/user-authentication-workflow)
+- [IETF: RFC7591 - OAuth 2.0 Dynamic Client Registration Protocol](https://datatracker.ietf.org/doc/html/rfc7591)
+<br><br>
+
 
 **=CHANGE LOG** <br>
 *new changes at the beginning (EN) / новые изменения в начале (RU) <br>
 
-10: 20220714_19:00
+11: 20220715_1315:
+<pre>
+- реализация авторизации и деавторизации приложения Сервисе Unsplash и запроса приватных данных из Профиля пользователя;
+- внесены изменения в "const.js":  в константу "OAUTH_PERM_SCOPE" добавлено новая область (read_user) для доступа к профилю пользователя;
+- реализован модуль "getUserData.js" который запрашивает JSON данные из Профиля пользователя используя API-ендпоинт "/me";
+- внесены изменения в модуль "authorization.js": добавляена функция "logout()" которая вызывается при клике на кнопку авторизации
+  если пользователь уже был авторизован и приводит приложение в первоначальное состояние,
+  удаляя при этом Bearer-токен доступа из "Local Storage" Бразуера;
+
+- В РЕЗУЛЬТАТЕ при клике на кнопку "Logon/Logoff" запускается процедура OAuth2 Авторизации на Сервисе Unsplash
+  и если она прошла успешно, то сервисом выдается Bearer-токен доступа,
+  который используется для запроса приватных данных пользователя из его Профиля н Сервисе (ссылка на Аватар и Имя учетной записи);
+  при повторном клике на кнопку "Logon/Logoff" происходит отключение пользователя от Сервиса,
+  удаляется Bearer-токен и приложение переходит в исходное состояние с ограниченными правами;
+</pre>
+
+10: 20220714_1900:
 <pre>
 - реализация авторизации приложения на Сервисе Unsplash согласно протоколу OAuth2;
 - добавлены новые константы в "const.js' необходимые для выполнения шагов авторизации пользователя;
@@ -189,6 +210,10 @@ Online photo Gallery | MethEd Online School (EN) <br>
 
 
 **=APP PREVIEW**
+
+- v20220715_1315 (11) -- Implemented User Authorization and Authentication -- get User Profile data from REST-API Service;<br>
+![preview](_preview/app-preview_20220715_1315.png?raw=true)
+<br><br>
 
 - v20220708_1030 (08) -- Implemented Single Image page "page.html" -- from REST-API Service;<br>
 ![preview](_preview/app-preview_20220708_1030.png?raw=true)
