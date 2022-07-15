@@ -1,4 +1,4 @@
-import { API_URL_PHOTOS, ACCESS_KEY } from "./const.js";
+import { API_URL_PHOTOS, API_ACCESS_KEY } from "./const.js";
 
 
 /**
@@ -19,7 +19,7 @@ export const getData = ({page = 1, count, imgId}) => {
 
     //=Construct URL for Get Request
     const url = new URL(API_URL_PHOTOS);
-    url.searchParams.set('client_id', ACCESS_KEY);
+    url.searchParams.set('client_id', API_ACCESS_KEY);
 
     //..Check if parameters exists
     if (page && count) {

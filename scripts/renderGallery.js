@@ -52,10 +52,10 @@ export const renderGallery = (wrapperElement, photos) => {
         gallery.append(...cards);
         //=Apply Masonry-grid to Photo Cards - place/append Array of <li> card elements into Masonry grid Object
         masonryGrid.appended(cards);
-        //-NEW
         //=Add empty div-element to the end of wrapper element after <ul> element (but before next portion of data)
         wrapperElement.append(terminator);
-        //=
+
+        //=Asyncroniously get and render new portion of Card Images data when terminator-element is loaded at the end of the page
         scrollLoad(gallery, masonryGrid, terminator);
     })
 
